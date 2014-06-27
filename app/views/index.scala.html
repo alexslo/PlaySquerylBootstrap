@@ -1,0 +1,55 @@
+@(contacts: List[Contact], contactForm: Form[Contact])
+@import helper._
+@import helper.twitterBootstrap._
+
+@main("Contacts list") {
+    <legend>Contacts Book</legend>
+<div class="row-fluid">
+    <div class="span4">
+
+        <h5>Add a new Contact</h5>
+        @form(routes.Application.newContact) {
+            
+            @inputText(contactForm("name"), args = '_name -> "Name") 
+            @inputText(contactForm("telephone"), args = '_telephone -> "Telephone")
+            <button class='btn btn-primary' type='submit'>Create</button>
+            
+            
+        }      
+    </div>
+    <div class="span8">
+        <table class='table table-striped'>
+        <thead>
+            <tr>
+
+            <th>Name</th>
+            <th>Telephone</th>
+            <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        @contacts.map { contact => 
+            <tr>
+                <td>@contact.name</td>
+                <td>@contact.telephone</td>
+                <td>
+                <form action="@routes.Application.deleteContact(contact.id)" method="POST" style="display: inline">
+                    <button class='btn btn-danger' type='submit'><i class='icon-white icon-trash'></i> Delete</button>
+                </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+        <tfoot>
+            <tr>
+                <th></th>
+                <th>@contacts.size contact(s)</th>
+            </tr>
+        </tfoot>
+        </table>    
+    </div>
+</div>
+
+
+  
+}
